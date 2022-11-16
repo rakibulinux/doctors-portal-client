@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Login = () => {
-  const { loginUserAccount } = useContext(AuthContext);
+  const { loginUserAccount, loginWithGoogle } = useContext(AuthContext);
   const { register, handleSubmit } = useForm();
   const location = useLocation();
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Login = () => {
     loginUserAccount(email, password)
       .then((result) => {
         const user = result.user;
-        toast.success(`Login success with user: ${user?.displayName}`);
+        toast.success(`Login success with Email: ${user?.displayName}`);
         navigate(from, { replace: true });
       })
       .catch((err) => {
@@ -27,7 +27,15 @@ const Login = () => {
   };
 
   const handleGoogleLogin = () => {
-    console.log("Google");
+    loginWithGoogle()
+      .then((result) => {
+        const user = result.user;
+        toast.success(`Login success with google: ${user?.displayName}`);
+        navigate(from, { replace: true });
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
   };
   const resetPassword = (e) => {
     console.log(e);

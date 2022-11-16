@@ -53,10 +53,10 @@ const Navbar = () => {
           <li>
             <NavLink to="/dashboard">Dashboard</NavLink>
           </li>
-          <li>
+          <li className="items-center">
             <button
               onClick={handleLogOut}
-              className="btn bg-primary rounded-md border-none"
+              className="text-white h-8 bg-primary rounded-md border-none"
             >
               SignOut
             </button>
