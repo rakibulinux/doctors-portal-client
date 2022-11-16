@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
+import toast from "react-hot-toast";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../../contexts/AuthProvider";
 
 const Navbar = () => {
+  const { user, signOutUser } = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    signOutUser()
+      .then(() => {
+        toast.success("LogOut Success");
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
+
   const menueItems = (
     <>
       <li>
@@ -20,25 +34,48 @@ const Navbar = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink className="bg-white text-black" to="/reviews">
-          Reviews
-        </NavLink>
+        {user?.uid && (
+          <NavLink className="bg-white text-black" to="/reviews">
+            Reviews
+          </NavLink>
+        )}
       </li>
       <li>
         <NavLink className="bg-white text-black" to="/contact">
           Contact Us
         </NavLink>
       </li>
-      <li>
-        <NavLink className="bg-white text-black" to="/login">
-          LogIn
-        </NavLink>
-      </li>
-      <li>
-        <NavLink className="bg-white text-black" to="/register">
-          Register
-        </NavLink>
-      </li>
+      {user?.uid ? (
+        <>
+          <li>
+            <NavLink to="/profile">Profile</NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard">Dashboard</NavLink>
+          </li>
+          <li>
+            <button
+              onClick={handleLogOut}
+              className="btn bg-primary rounded-md border-none"
+            >
+              SignOut
+            </button>
+          </li>
+        </>
+      ) : (
+        <>
+          <li>
+            <NavLink className="bg-white text-black" to="/login">
+              LogIn
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className="bg-white text-black" to="/register">
+              Register
+            </NavLink>
+          </li>
+        </>
+      )}
     </>
   );
   return (
