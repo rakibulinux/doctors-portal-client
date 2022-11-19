@@ -1,15 +1,21 @@
 import { createBrowserRouter } from "react-router-dom";
+import DashboardLayout from "../../layout/DashboardLayout";
 import Main from "../../layout/Main";
 import About from "../../Pages/About/About";
 import Appointments from "../../Pages/Appointments/Appointments/Appointments";
 import Contact from "../../Pages/Contact/Contact";
+import AddDoctor from "../../Pages/Dashboard/AddDoctor/AddDoctor";
+import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
 import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
+import ManageDoctors from "../../Pages/Dashboard/ManageDoctors/ManageDoctors";
+import MyAppointment from "../../Pages/Dashboard/MyAppointment/MyAppointment";
 import ErrorPage from "../../Pages/ErrorPage/ErrorPage";
 import Home from "../../Pages/Home/Home/Home";
 import Login from "../../Pages/Login/Login";
 import Profile from "../../Pages/Profile/Profile";
 import Register from "../../Pages/Register/Register";
 import Reviews from "../../Pages/Reviews/Reviews";
+import AdminRoute from "../AdminRoute/AdminRoute";
 import PrivateRoutes from "../PrivateRoutes/PrivateRoutes";
 
 const router = createBrowserRouter([
@@ -58,7 +64,41 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <PrivateRoutes>
+        <DashboardLayout />
+      </PrivateRoutes>
+    ),
+    children: [
+      {
+        path: "/dashboard",
+        element: <MyAppointment />,
+      },
+      {
+        path: "/dashboard/allusers",
+        element: (
+          <AdminRoute>
+            <AllUsers />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/add-doctor",
+        element: (
+          <AdminRoute>
+            <AddDoctor />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/manage-doctors",
+        element: (
+          <AdminRoute>
+            <ManageDoctors />
+          </AdminRoute>
+        ),
+      },
+    ],
   },
 ]);
 

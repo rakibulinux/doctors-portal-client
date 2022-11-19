@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
+import useToken from "../../hooks/useToken";
 
 const Register = () => {
   const { createUserAccount, updateUserAccount, loginWithGoogle } =
@@ -17,6 +18,12 @@ const Register = () => {
   } = useForm();
   const [userInfo, setUserInfo] = useState({});
   const { name, photoURL, email, password } = userInfo;
+  const [createdUserEmail, setCretedUserEmail] = useState("");
+  const [token] = useToken(createdUserEmail);
+
+  if (token) {
+    navigate("/");
+  }
   const handleRegister = (data) => {
     setUserInfo(data);
     createUserAccount(email, password)
@@ -25,6 +32,7 @@ const Register = () => {
         updateUserAccount(name, photoURL)
           .then(() => {
             toast.success("Profile updated");
+            savedUser(name, email);
           })
           .catch((err) => {
             toast.error(err.message);
@@ -36,7 +44,7 @@ const Register = () => {
       });
   };
 
-  console.log(userInfo);
+  // console.log(userInfo);
   const handleGoogleLogin = () => {
     loginWithGoogle()
       .then((result) => {
@@ -48,6 +56,32 @@ const Register = () => {
         toast.error(err.message);
       });
   };
+
+  const savedUser = (name, email) => {
+    const user = { name, email };
+    fetch("http://localhost:5000/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setCretedUserEmail(email);
+      });
+  };
+
+  // const verifyUserJWT = (email) => {
+  //   fetch(`http://localhost:5000/jwt?email=${email}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data.accessToken) {
+  //         localStorage.setItem("accessToken", data.accessToken);
+  //         navigate("/");
+  //       }
+  //     });
+  // };
 
   return (
     <div className="hero bg-base-200">
@@ -125,7 +159,7 @@ const Register = () => {
               </div>
             </div>
             <div className="form-control mt-6">
-              <button className="btn border-none bg-primary">Login</button>
+              <button className="btn border-none bg-primary">Register</button>
             </div>
             <p>
               Already have an account?{" "}

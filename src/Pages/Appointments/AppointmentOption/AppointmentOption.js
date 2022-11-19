@@ -6,13 +6,16 @@ const AppointmentOption = ({ appointmentOption, setTreatment }) => {
     <div className="card w-96 bg-base-100 shadow-xl">
       <div className="card-body flex justify-center items-center">
         <h2 className="card-title text-secondary">{name}</h2>
-        <select name="" id="">
+        {/* <select name="" id="">
           {slots.map((slot, idx) => (
             <option key={idx} value={slot}>
               {slot.length ? slot : "Try Another day"}
             </option>
           ))}
-        </select>
+        </select> */}
+
+        <p>{slots.length > 0 ? slots[0] : "Try Another day"}</p>
+
         <p>
           {slots.length} {slots.length > 1 ? "SPACES" : "SPACE"} AVAILABLE
         </p>

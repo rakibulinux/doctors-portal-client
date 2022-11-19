@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import toast from "react-hot-toast";
+import { AuthContext } from "../../../contexts/AuthProvider";
 
-const AppointmentModal = ({ treatment, setTreatment, date }) => {
-  const { name, slots } = treatment;
+const AppointmentModal = ({ treatment, setTreatment, date, refetch }) => {
+  const { user } = useContext(AuthContext);
+  const { name: treatmentName, slots } = treatment;
   const handleBooking = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -11,7 +14,7 @@ const AppointmentModal = ({ treatment, setTreatment, date }) => {
     const phone = form.phone.value;
     const booking = {
       appointmentDate: date,
-      treatment: name,
+      treatment: treatmentName,
       patient: name,
       slot,
       email,
@@ -19,6 +22,24 @@ const AppointmentModal = ({ treatment, setTreatment, date }) => {
     };
     console.log(booking);
     setTreatment(null);
+    fetch("http://localhost:5000/bookings", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(booking),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.acknowledged) {
+          setTreatment(null);
+          toast.success("Booking success");
+          refetch();
+        } else {
+          toast.error(data.message);
+        }
+      });
   };
   return (
     <div>
@@ -26,7 +47,7 @@ const AppointmentModal = ({ treatment, setTreatment, date }) => {
       <input type="checkbox" id="my-modal" className="modal-toggle" />
       <div className="modal ">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">{name}</h3>
+          <h3 className="font-bold text-lg">{treatmentName}</h3>
           <label
             htmlFor="my-modal"
             className="btn btn-sm btn-circle absolute right-2 top-2"
@@ -49,23 +70,27 @@ const AppointmentModal = ({ treatment, setTreatment, date }) => {
               ))}
             </select>
             <input
+              defaultValue={user?.displayName}
               type="text"
               name="name"
               placeholder="Your name"
               className="mt-4 input input-bordered w-full"
+              disabled
+            />
+            <input
+              defaultValue={user?.email}
+              type="email"
+              name="email"
+              placeholder="Your email"
+              className="mt-4 input input-bordered w-full"
+              required
+              disabled
             />
             <input
               type="text"
               name="phone"
               placeholder="Your phone"
               className="mt-4 input input-bordered w-full"
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Your email"
-              className="mt-4 input input-bordered w-full"
-              required
             />
             <div className="modal-action">
               <input
