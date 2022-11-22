@@ -14,9 +14,9 @@ const AvailableAppointments = ({ selectedDate }) => {
   } = useQuery({
     queryKey: ["appointmentOptions", date],
     queryFn: () =>
-      fetch(`http://localhost:5000/v2/appointmentOptions?date=${date}`).then(
-        (res) => res.json()
-      ),
+      fetch(
+        `https://doctors-portal-server-nu-two.vercel.app/v2/appointmentOptions?date=${date}`
+      ).then((res) => res.json()),
   });
   if (isLoading) {
     return <h1 className="text-3xl text-center">I am loading</h1>;

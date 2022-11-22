@@ -59,7 +59,7 @@ const Register = () => {
 
   const savedUser = (name, email) => {
     const user = { name, email };
-    fetch("http://localhost:5000/users", {
+    fetch("https://doctors-portal-server-nu-two.vercel.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -73,7 +73,7 @@ const Register = () => {
   };
 
   // const verifyUserJWT = (email) => {
-  //   fetch(`http://localhost:5000/jwt?email=${email}`)
+  //   fetch(`https://doctors-portal-server-nu-two.vercel.app/jwt?email=${email}`)
   //     .then((res) => res.json())
   //     .then((data) => {
   //       if (data.accessToken) {

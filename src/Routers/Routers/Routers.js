@@ -6,9 +6,9 @@ import Appointments from "../../Pages/Appointments/Appointments/Appointments";
 import Contact from "../../Pages/Contact/Contact";
 import AddDoctor from "../../Pages/Dashboard/AddDoctor/AddDoctor";
 import AllUsers from "../../Pages/Dashboard/AllUsers/AllUsers";
-import Dashboard from "../../Pages/Dashboard/Dashboard/Dashboard";
 import ManageDoctors from "../../Pages/Dashboard/ManageDoctors/ManageDoctors";
 import MyAppointment from "../../Pages/Dashboard/MyAppointment/MyAppointment";
+import Payments from "../../Pages/Dashboard/Payments/Payments";
 import ErrorPage from "../../Pages/ErrorPage/ErrorPage";
 import Home from "../../Pages/Home/Home/Home";
 import Login from "../../Pages/Login/Login";
@@ -69,6 +69,7 @@ const router = createBrowserRouter([
         <DashboardLayout />
       </PrivateRoutes>
     ),
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/dashboard",
@@ -97,6 +98,18 @@ const router = createBrowserRouter([
             <ManageDoctors />
           </AdminRoute>
         ),
+      },
+      {
+        path: "/dashboard/payment/:id",
+        element: (
+          <AdminRoute>
+            <Payments />
+          </AdminRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(
+            `https://doctors-portal-server-nu-two.vercel.app/bookings/${params.id}`
+          ),
       },
     ],
   },

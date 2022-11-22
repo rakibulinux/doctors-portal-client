@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../../contexts/AuthProvider";
 
-const AppointmentModal = ({ treatment, setTreatment, date, refetch }) => {
+const BookingModal = ({ treatment, setTreatment, date, refetch }) => {
   const { user } = useContext(AuthContext);
-  const { name: treatmentName, slots } = treatment;
+  const { name: treatmentName, slots, price } = treatment;
   const handleBooking = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -19,10 +19,11 @@ const AppointmentModal = ({ treatment, setTreatment, date, refetch }) => {
       slot,
       email,
       phone,
+      price: price,
     };
     console.log(booking);
     setTreatment(null);
-    fetch("http://localhost:5000/bookings", {
+    fetch("https://doctors-portal-server-nu-two.vercel.app/bookings", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -77,6 +78,7 @@ const AppointmentModal = ({ treatment, setTreatment, date, refetch }) => {
               className="mt-4 input input-bordered w-full"
               disabled
             />
+            <p className="mt-4 bordered w-full">Price: {price}</p>
             <input
               defaultValue={user?.email}
               type="email"
@@ -106,4 +108,4 @@ const AppointmentModal = ({ treatment, setTreatment, date, refetch }) => {
   );
 };
 
-export default AppointmentModal;
+export default BookingModal;

@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AddDoctor = () => {
   const imageHostKey = process.env.REACT_APP_IMG_BB_KEY;
@@ -35,7 +35,7 @@ const AddDoctor = () => {
           };
           console.log(doctor);
           // Update in database
-          fetch("http://localhost:5000/doctors", {
+          fetch("https://doctors-portal-server-nu-two.vercel.app/doctors", {
             method: "POST",
             headers: {
               "content-type": "application/json",
@@ -55,7 +55,9 @@ const AddDoctor = () => {
   const { data: specialties, isLoading } = useQuery({
     queryKey: ["appointmentSpecialty"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/appointmentSpecialty");
+      const res = await fetch(
+        "https://doctors-portal-server-nu-two.vercel.app/appointmentSpecialty"
+      );
       const data = await res.json();
       return data;
     },
