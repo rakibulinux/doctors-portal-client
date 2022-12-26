@@ -59,7 +59,7 @@ const Register = () => {
 
   const savedUser = (name, email) => {
     const user = { name, email };
-    fetch("https://doctors-portal-server-nu-two.vercel.app/users", {
+    fetch(`${process.env.REACT_APP_API_URL}/users`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -73,7 +73,7 @@ const Register = () => {
   };
 
   // const verifyUserJWT = (email) => {
-  //   fetch(`https://doctors-portal-server-nu-two.vercel.app/jwt?email=${email}`)
+  //   fetch(`${process.env.REACT_APP_API_URL}/jwt?email=${email}`)
   //     .then((res) => res.json())
   //     .then((data) => {
   //       if (data.accessToken) {

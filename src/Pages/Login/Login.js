@@ -22,7 +22,7 @@ const Login = () => {
 
   const handleLogin = (data) => {
     setUserInfo(data);
-    loginUserAccount(email, password)
+    loginUserAccount(data.email, data.password)
       .then((result) => {
         const user = result.user;
         setLoginUserEmail(user?.email);

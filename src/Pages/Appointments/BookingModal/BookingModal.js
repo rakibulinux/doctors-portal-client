@@ -23,7 +23,7 @@ const BookingModal = ({ treatment, setTreatment, date, refetch }) => {
     };
     console.log(booking);
     setTreatment(null);
-    fetch("https://doctors-portal-server-nu-two.vercel.app/bookings", {
+    fetch(`${process.env.REACT_APP_API_URL}/bookings`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

@@ -103,9 +103,7 @@ const router = createBrowserRouter([
         path: "/dashboard/payment/:id",
         element: <Payments />,
         loader: ({ params }) =>
-          fetch(
-            `https://doctors-portal-server-nu-two.vercel.app/bookings/${params.id}`
-          ),
+          fetch(`${process.env.REACT_APP_API_URL}/bookings/${params.id}`),
       },
     ],
   },

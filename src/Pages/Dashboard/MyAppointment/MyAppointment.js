@@ -5,7 +5,7 @@ import { AuthContext } from "../../../contexts/AuthProvider";
 
 const MyAppointment = () => {
   const { user } = useContext(AuthContext);
-  const url = `https://doctors-portal-server-nu-two.vercel.app/bookings?email=${user?.email}`;
+  const url = `${process.env.REACT_APP_API_URL}/bookings?email=${user?.email}`;
   const { data: bookings, isLoading } = useQuery({
     queryKey: ["bookings", user?.email],
     queryFn: async () => {
@@ -40,27 +40,28 @@ const MyAppointment = () => {
               </tr>
             </thead>
             <tbody>
-              {bookings.map((booking, idx) => (
-                <tr key={booking._id} className="hover">
-                  <th>{idx + 1}</th>
-                  <td>{booking.patient}</td>
-                  {/* <td>{booking.email}</td>
+              {bookings &&
+                bookings.map((booking, idx) => (
+                  <tr key={booking._id} className="hover">
+                    <th>{idx + 1}</th>
+                    <td>{booking.patient}</td>
+                    {/* <td>{booking.email}</td>
                   <td>{booking.phone}</td> */}
-                  <td>{booking.treatment}</td>
-                  <td>{booking.appointmentDate}</td>
-                  <td>{booking.slot}</td>
-                  <td>
-                    {booking.price && !booking.paid && (
-                      <Link to={`/dashboard/payment/${booking._id}`}>
-                        <button className="btn bg-primary btn-sm">Pay</button>
-                      </Link>
-                    )}
-                    {booking.price && booking.paid && (
-                      <span className="text-green-500 font-bold">Paid</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
+                    <td>{booking.treatment}</td>
+                    <td>{booking.appointmentDate}</td>
+                    <td>{booking.slot}</td>
+                    <td>
+                      {booking.price && !booking.paid && (
+                        <Link to={`/dashboard/payment/${booking._id}`}>
+                          <button className="btn bg-primary btn-sm">Pay</button>
+                        </Link>
+                      )}
+                      {booking.price && booking.paid && (
+                        <span className="text-green-500 font-bold">Paid</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

@@ -15,7 +15,7 @@ const AvailableAppointments = ({ selectedDate }) => {
     queryKey: ["appointmentOptions", date],
     queryFn: () =>
       fetch(
-        `https://doctors-portal-server-nu-two.vercel.app/v2/appointmentOptions?date=${date}`
+        `${process.env.REACT_APP_API_URL}/v2/appointmentOptions?date=${date}`
       ).then((res) => res.json()),
   });
   if (isLoading) {

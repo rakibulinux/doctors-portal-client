@@ -15,29 +15,23 @@ const ManageDoctors = () => {
   } = useQuery({
     queryKey: ["doctors"],
     queryFn: async () => {
-      const res = await fetch(
-        "https://doctors-portal-server-nu-two.vercel.app/doctors",
-        {
-          headers: {
-            authorization: `bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      );
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/doctors`, {
+        headers: {
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       const data = await res.json();
       return data;
     },
   });
   const handleDeleteDoctor = (doctor) => {
     console.log(doctor);
-    fetch(
-      `https://doctors-portal-server-nu-two.vercel.app/doctors/${doctor._id}`,
-      {
-        method: "DELETE",
-        headers: {
-          authorization: `bearer ${localStorage.getItem("accessToken")}`,
-        },
-      }
-    )
+    fetch(`${process.env.REACT_APP_API_URL}/doctors/${doctor._id}`, {
+      method: "DELETE",
+      headers: {
+        authorization: `bearer ${localStorage.getItem("accessToken")}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

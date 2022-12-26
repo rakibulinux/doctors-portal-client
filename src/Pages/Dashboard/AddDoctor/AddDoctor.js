@@ -35,7 +35,7 @@ const AddDoctor = () => {
           };
           console.log(doctor);
           // Update in database
-          fetch("https://doctors-portal-server-nu-two.vercel.app/doctors", {
+          fetch(`"``${process.env.REACT_APP_API_URL}/doctors`, {
             method: "POST",
             headers: {
               "content-type": "application/json",
@@ -56,7 +56,7 @@ const AddDoctor = () => {
     queryKey: ["appointmentSpecialty"],
     queryFn: async () => {
       const res = await fetch(
-        "https://doctors-portal-server-nu-two.vercel.app/appointmentSpecialty"
+        `${process.env.REACT_APP_API_URL}/appointmentSpecialty`
       );
       const data = await res.json();
       return data;

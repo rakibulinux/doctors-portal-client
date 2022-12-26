@@ -10,16 +10,14 @@ const AllUsers = () => {
   } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await fetch(
-        "https://doctors-portal-server-nu-two.vercel.app/users"
-      );
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/users`);
       const data = await res.json();
       return data;
     },
   });
 
   const handleAdminRole = (id) => {
-    fetch(`https://doctors-portal-server-nu-two.vercel.app/users/admin/${id}`, {
+    fetch(`${process.env.REACT_APP_API_URL}/users/admin/${id}`, {
       method: "PUT",
       headers: {
         authorization: `bearer ${localStorage.getItem("accessToken")}`,
